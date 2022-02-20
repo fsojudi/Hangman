@@ -8,22 +8,32 @@ namespace Hangman
         static void Main(string[] args)
         {
             string[] nameArray = new string[3] { "sara", "zohreh", "kiana" };
-            string name = nameArray[1];
+            int nameArrayLength = nameArray.Length;
+            Random random = new Random();
+            int index = random.Next(nameArrayLength);
+            string name = nameArray[index];
+
+            Console.Write("\r\n");
+            Console.WriteLine("                                                  Welcome to Hangman!");
+            Console.Write("\r\n");
             Console.WriteLine("\nThe length of the name is : ");
+
             foreach (char x in name)
             {
 
                 Console.Write("_ ");
             }
+            Console.Write("\r\n");
 
             int nameLength = name.Length;
-            int amountOfTimesWrong = 0;
+            int wrongNumber = 0;
             List<char> currentLettersGuessed = new List<char>();
-            int currentLettersRight = 0;
+            int rightNumber = 0;
 
-            while (amountOfTimesWrong != 10 && currentLettersRight != nameLength)
+            while (wrongNumber != 10 && rightNumber != nameLength)
             {
 
+                Console.Write("\r\n");
 
                 Console.Write("\n input your guessed letter: ");
                 char letterGuessed = Console.ReadLine()[0];
@@ -44,18 +54,31 @@ namespace Hangman
                 if (right)
                 {
                     currentLettersGuessed.Add(letterGuessed);
-                    currentLettersRight = printname(currentLettersGuessed, name);
+                    printname(currentLettersGuessed, name);
+
                     Console.Write("\r\n");
+                    foreach (char c in name )
+                    {
+                       
+                        Console.Write("_ ");
+                    }
+
+                    rightNumber++;
 
                 }
+
                 // if user was wrong
                 else
                 {
-                    amountOfTimesWrong += 1;
+                    wrongNumber++;
                     currentLettersGuessed.Add(letterGuessed);
-
-                    currentLettersRight = printname(currentLettersGuessed, name);
                     Console.Write("\r\n");
+                    Console.WriteLine($" You have guessed {wrongNumber } letters incorrectly.");
+                    
+
+                    printname(currentLettersGuessed, name);
+
+                    
 
                 }
 
@@ -68,27 +91,26 @@ namespace Hangman
 
 
 
-        private static int printname(List<char> guessLetter, String secretword)
+         static void  printname(List<char> guessLetter, String secretword)
         {
             int counter = 0;
-            int rightLetter = 0;
+            Console.Write("\r\n");
             foreach (char letter in secretword)
             {
                 if (guessLetter.Contains(letter))
                 {
-                    Console.Write("\r\n");
-                    Console.WriteLine(letter + "");
-                    rightLetter += 1;
+
+                    Console.Write(letter + " ");
                 }
                 else
                 {
-                    Console.WriteLine(" ");
+                    Console.Write(" ");
 
                 }
                 counter += 1;
 
             }
-            return rightLetter;
+            
         }
 
     }
